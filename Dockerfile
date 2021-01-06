@@ -1,17 +1,14 @@
-FROM php:7.3-fpm
 
-RUN apt-get update && apt-get install -y libmcrypt-dev zip unzip git \
-    && pecl install mcrypt-1.0.2 \
-    && docker-php-ext-enable mcrypt
+FROM node:14
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN mkdir /users
+WORKDIR /users
 
-RUN docker-php-ext-install pdo mbstring
+ADD package.json /users/package.json
+RUN npm install
 
-WORKDIR /generals
-COPY . /generals
+COPY . /users
 
-RUN composer install
-CMD php artisan serve --host=0.0.0.0 --port=3001
+EXPOSE 3000
 
-EXPOSE 3001
+CMD npm start
