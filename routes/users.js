@@ -75,9 +75,9 @@ router.put('/v1/:scope/chng-email', [scope_checking, json_web_token_verified], u
 router.put('/v1/:scope/chng-passw', [scope_checking, json_web_token_verified], userProfileHandler.cpassw)
 router.put('/v1/:scope/photo-profile', [scope_checking, json_web_token_verified, multer({storage:diskStorage}).single('photo')], userProfileHandler.photo)
 
-router.post('/v1/:scope/send_otp', [scope_checking, json_web_token_verified], otpHandler.send_otp)
-router.post('/v1/:scope/send_email', [scope_checking, json_web_token_verified], otpHandler.send_email)
-router.post('/v1/:scope/receive_otp', [scope_checking, json_web_token_verified], otpHandler.receive_otp)
+router.post('/v1/:scope/send_otp', scope_checking, otpHandler.send_otp)
+router.post('/v1/:scope/send_email', scope_checking, otpHandler.send_email)
+router.post('/v1/:scope/receive_otp', scope_checking, otpHandler.receive_otp)
 
 router.post('/v1/:scope/verify', [scope_checking, json_web_token_verified], userHandler.verify)
 
