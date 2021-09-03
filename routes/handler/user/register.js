@@ -91,7 +91,7 @@ module.exports = async (req, res) => {
                 // TODO send mail notification
                 if (created_otp) {
                     mailer({
-                        from: process.env.EMAIL_USERNAME,
+                        from: process.env.EMAIL_ACCOUNT,
                         to: req.body.email,
                         subject: 'Anjasmara! Registrasi Sukses ' + req.body.name,
                         html : '<strong>' + req.body.name + ',</strong> Kode OTP Anda Adalah <strong>' + otp.code + '</strong> untuk aktifasi akun!'

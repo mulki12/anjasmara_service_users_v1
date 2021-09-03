@@ -55,14 +55,16 @@ module.exports = async (req, res) => {
     })
 
     if (created_otp) {
-            
-        mailer({
-            from: process.env.EMAIL_USERNAME,
+
+        let data = {
+            from: process.env.EMAIL_ACCOUNT,
             to: user.email,
             subject: 'Anjasmara! Rahasiakan Kode OTP ' + user.name,
-            html : '<strong>' + user.name + ',</strong> Kode OTP Anda Adalah <strong>' + otp.code + '</strong>!'
+            html : '<strong>' + user.name + ',</strong> Kode OTP Anda Adalah <strong>' + created_otp.code + '</strong>!'
             
-        });
+        };
+            
+        mailer(data);
 
         Log.create({
             "uuid"  : uuid.v4(),
