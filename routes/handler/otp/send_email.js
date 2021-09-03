@@ -3,6 +3,7 @@ const mailer                = require('../../../config/gmail.js');
 const Validator             = require('fastest-validator');
 const uuid                  = require('uuid');
 const moment                = require('moment');
+const wablast               = require('../../../config/wablast');
 
 const v = new Validator();
 
@@ -17,7 +18,6 @@ module.exports = async (req, res) => {
     const validate = v.validate(req.body, schema);
 
     if (validate.length) {
-
         let field = '';
         validate.forEach(element => {
             field += element.field + ' '
@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
         })
     }
 
-    const send_notif_by = "gmail";
+    const send_notif_by = "smtp";
     const code_otp = Math.floor(100000 + Math.random() * 900000)
     
     const created_otp = await Otp.create({
@@ -63,8 +63,15 @@ module.exports = async (req, res) => {
             html : '<strong>' + user.name + ',</strong> Kode OTP Anda Adalah <strong>' + created_otp.code + '</strong>!'
             
         };
+
+        let wa_data = {
+            'phone'     : user.phone,
+            'message'   : '\nRahasiakan Kode Otp Anda \nKode OTP Anda adalah *' + created_otp.code + "*\n",
+            'priority'  : false, // or true
+        };
             
         mailer(data);
+        wablast.text_message(wa_data);
 
         Log.create({
             "uuid"  : uuid.v4(),
