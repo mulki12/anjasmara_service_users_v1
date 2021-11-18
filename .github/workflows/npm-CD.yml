@@ -8,7 +8,7 @@ on:
     branch: [ master ] 
   release:
     tags:
-      - v*
+      - v1.*.*
 
 jobs:
   build:
