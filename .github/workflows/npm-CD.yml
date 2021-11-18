@@ -12,19 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy using ssh
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd ~/docker/anjasmara_service_users_v1
-            git pull origin master
-            git status
-            npm install --only=prod
-            docker build .
+
       - name: Check Out Repo 
         uses: actions/checkout@v2
 
@@ -48,3 +36,5 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+   
