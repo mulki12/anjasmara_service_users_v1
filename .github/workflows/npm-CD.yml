@@ -6,6 +6,8 @@ name: Node.js CD
 on:
   push:
     branch: [ master ] 
+  tags:
+    - '!refs/tags/*'
 
 jobs:
   build:
