@@ -29,10 +29,7 @@ jobs:
         run: npm install
       - name: update NPM Dependencies
         run: npm update  
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
-        env:
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: vendor/bin/phpunit
+
         
   build-js-production:
     name: Build JavaScript/CSS for PRODUCTION Server
@@ -44,11 +41,7 @@ jobs:
       - name: NPM Build
         run: |
           npm install
-      - name: Put built assets in Artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: assets
-          path: public
+
    
   deploy-production:
     name: Deploy Project to registry docker
