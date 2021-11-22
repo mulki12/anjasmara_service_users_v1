@@ -1,55 +1,21 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
-
-name: PUSH Workflow
+name: Node.js CD
 
 on:
   push:
-    branches:
-      - master
+    branch: [ master ] 
+  release:
+    tags:
+      - v1.*.*
 
 jobs:
-  app-tests:
+  build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mariadb:10.4
-        env:
-          MYSQL_CONNECTION: mysql
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: anjasmara_service_users
-          MYSQL_USERNAME: root
-          MYSQL_PASSWORD: anjas123
-        ports:
-          - 3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Install NPM Dependencies
         run: npm install
       - name: update NPM Dependencies
-        run: npm update  
-
-        
-  build-js-production:
-    name: Build JavaScript/CSS for PRODUCTION Server
-    runs-on: ubuntu-latest
-    needs: app-tests
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - uses: actions/checkout@v1
-      - name: NPM Build
-        run: |
-          npm install
-
-   
-  deploy-production:
-    name: Deploy Project to registry docker
-    runs-on: ubuntu-latest
-    needs: [build-js-production, app-tests]
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - uses: actions/checkout@v2
+        run: npm update
 
       - name: Check Out Repo 
         uses: actions/checkout@v2
@@ -71,5 +37,6 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/anjasmara_service_users_v1:latest
+
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
