@@ -17,9 +17,7 @@ pipeline {
 
     stage('Build image') {
       steps{
-        script {
-          dockerImage = docker.build dockerimagename
-        }
+        sh 'docker build -t mulki12/anjasmara_service_users_v1:latest'
       }
     }
 
