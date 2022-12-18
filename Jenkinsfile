@@ -11,7 +11,7 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/mulki12/anjasmara_serice_users_v1.git'
+        git 'https://github.com/mulki12/anjasmara_service_users_v1.git'
       }
     }
 
