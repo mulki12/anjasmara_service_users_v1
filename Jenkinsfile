@@ -36,7 +36,7 @@ pipeline {
 
     stage('Deploying App to Kubernetes') {
       steps {
-        withKubeConfig([credentialsId: 'config']) {
+        withKubeConfig([credentialsId: 'kubeconfig']) {
           sh 'cat deploymentservice.yml | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f -'
           sh 'kubectl apply -f deploymentservice.yml'
         }
