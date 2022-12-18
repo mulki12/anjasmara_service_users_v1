@@ -1,8 +1,9 @@
 pipeline {
 
   environment {
-    dockerimagename = "anjasmara_service_users_v1"
-    dockerImage = ""
+    registry = "mulki12/anjasmara_service_users_v1"
+    registryCredential = 'mulki12'
+    dockerImage = ''
   }
 
   agent any
@@ -18,7 +19,7 @@ pipeline {
     stage('Build image') {
       steps{
         script{
-                 app = docker.build("anjasmara_service_users_v1")
+            dockerImage = docker.build registry + ":$BUILD_NUMBER"
          }
       }
     }
@@ -39,7 +40,7 @@ pipeline {
     stage('Deploying App to Kubernetes') {
       steps {
         script {
-          kubernetesDeploy(configs: "deploymentservice.yml", kubeconfigId: "kubernetes")
+          kubernetesDeploy(configs: "deploymentservice.yml", kubeconfigId: "config")
         }
       }
     }
