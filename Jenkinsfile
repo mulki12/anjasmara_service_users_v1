@@ -36,7 +36,9 @@ pipeline {
 
     stage('Deploying App to Kubernetes') {
       steps {
-        sh 'envsubst < https://github.com/mulki12/anjasmara_service_users_v1/deploymentservice.yml'
+        withKubeConfig([credentialsId: 'config']) {
+          sh 'cat deploymentservice.yml | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f -'
+          sh 'kubectl apply -f deploymentservice.yml'
       }
     }
 
