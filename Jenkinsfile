@@ -39,6 +39,7 @@ pipeline {
         withKubeConfig([credentialsId: 'config']) {
           sh 'cat deploymentservice.yml | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f -'
           sh 'kubectl apply -f deploymentservice.yml'
+        }
       }
     }
 
