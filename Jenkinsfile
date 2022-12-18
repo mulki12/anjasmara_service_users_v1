@@ -24,26 +24,23 @@ pipeline {
       }
     }
 
-    stage('Pushing Image') {
-      environment {
-               registryCredential = 'dockerhublogin'
-           }
+    stage('Deploy our image') {
       steps{
         script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+          docker.withRegistry( '', registryCredential ) {
             dockerImage.push("latest")
           }
         }
       }
     }
 
-    stage('Deploying App to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "deploymentservice.yml", kubeconfigId: "config")
-        }
-      }
-    }
+//    stage('Deploying App to Kubernetes') {
+//      steps {
+//        script {
+//          kubernetesDeploy(configs: "deploymentservice.yml", kubeconfigId: "config")
+//        }
+//     }
+//    }
 
   }
 
