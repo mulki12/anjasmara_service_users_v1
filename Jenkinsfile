@@ -24,15 +24,15 @@ pipeline {
       }
     }
 
-    stage('Deploy our image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("latest")
-          }
-        }
-      }
-    }
+//    stage('Deploy our image') {
+//      steps{
+//        script {
+//          docker.withRegistry( '', registryCredential ) {
+//            dockerImage.push("latest")
+//          }
+//        }
+//      }
+//    }
 
     stage('Deploying App to Kubernetes') {
       steps {
