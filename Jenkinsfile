@@ -1,7 +1,7 @@
 pipeline {
 
   environment {
-    dockerimagename = "anjasmara_serice_users"
+    dockerimagename = "anjasmara_service_users_v1"
     dockerImage = ""
   }
 
@@ -17,7 +17,9 @@ pipeline {
 
     stage('Build image') {
       steps{
-        sh 'docker build -t mulki12/anjasmara_service_users_v1:latest'
+        script{
+                 app = docker.build("anjasmara_service_users_v1")
+         }
       }
     }
 
