@@ -36,7 +36,7 @@ pipeline {
 
     stage('Deploying App to Kubernetes') {
       steps {
-        sh 'envsubst < anjasmara_service_users_v1/deploymentservice.yml | kubectl apply -f -'
+        sh 'envsubst < anjasmara_service_users_v1/deploymentservice.yml'
       }
     }
 
