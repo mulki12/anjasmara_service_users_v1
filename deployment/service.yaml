@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: anjasmara-service-users-v1
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: anjasmara-service-users-v1

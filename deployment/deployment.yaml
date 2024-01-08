@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anjasmara-service-users-v1
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: anjasmara-service-users-v1
+  template:
+    metadata:
+      labels:
+        app: anjasmara-service-users-v1
+    spec:
+      containers:
+      - image: hub.docker.com/mulki1202/anjasmara-service-users-v1
+        name: anjasmara-service-users-v1
+        ports:
+        - containerPort: 3000
