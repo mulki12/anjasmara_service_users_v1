@@ -14,7 +14,7 @@ spec:
         app: anjasmara-service-users-v1
     spec:
       containers:
-      - image: docker.com/mulki1202/anjasmara-service-users-v1
+      - image: mulki12/anjasmara_service_users_v1
         name: anjasmara-service-users-v1
         ports:
         - containerPort: 3000
