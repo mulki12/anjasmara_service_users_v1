@@ -1,8 +1,10 @@
 
 FROM node:14
 
+
 RUN mkdir /users
 WORKDIR /users
+
 
 ADD package.json /users/package.json
 RUN npm install
