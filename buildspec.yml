@@ -4,12 +4,12 @@ phases:
   pre_build:
     commands:
       - echo loggin in to amazon ECR
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com
+      - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com
   build:
     commands:
       - echo Build started on date
       - echo Building the Docker image...          
-      - docker build https://github.com/mulki12/anjasmara_service_users_v1
+      - docker build $IMAGE_REPO_NAME:$IMAGE_TAG .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG 
   post_build:
     commands:
