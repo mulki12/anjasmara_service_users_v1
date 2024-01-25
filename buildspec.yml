@@ -9,8 +9,8 @@ phases:
       - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
       - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
-      - echo "Update Kube Config"      
-      - aws eks update-kubeconfig --name EKS-Cluster --region ap-southeast-1
+      #- echo "Update Kube Config"      
+      #- aws eks update-kubeconfig --name EKS-Cluster --region ap-southeast-1
   build:
     commands:
       - echo Build started on date
