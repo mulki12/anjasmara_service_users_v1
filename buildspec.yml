@@ -1,4 +1,6 @@
+---
 version: 0.2
+phases:
   prebuild:
     commands:
       - echo loggin in to amazon ECR
