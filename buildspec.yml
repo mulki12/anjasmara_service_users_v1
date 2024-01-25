@@ -11,10 +11,11 @@ phases:
       - echo "Verify AWS CLI Version..."
       - aws --version
       - echo "Login in to Amazon ECR..."
-      - $(aws ecr get-login --no-include-email --region ap-southeast-1)
+      - $(aws ecr get-login --no-include-email)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
        # Update Kube config Home Directory
       - export KUBECONFIG=$HOME/.kube/config
-      - echo "Update Kube Config"      
+      # - echo "Update Kube Config"      
       #- aws eks update-kubeconfig --name EKS-Cluster --region ap-southeast-1
   build:
     commands:
