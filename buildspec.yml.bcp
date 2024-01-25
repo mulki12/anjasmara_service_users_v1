@@ -1,0 +1,49 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin (nomor akun aws).dkr.ecr.ap-southeast-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on date
+      - echo Building the Docker image...          
+      - docker build -t (image_name_):(version) .
+      - docker tag (image_name_):(version) (nomor_akun_aws).dkr.ecr.ap-southeast-1.amazonaws.com/(image_name_):(version)    
+  post_build:
+    commands:
+      - echo Build completed on date
+      - echo Pushing the Docker image...
+      - docker push (nomor_akun_aws).dkr.ecr.ap-southeast-1.amazonaws.com/(image_name_):(version)
+      - printf '[{"name":"(task_definition)","imageUri":"%s"}]' (nomor_akun_aws).dkr.ecr.ap-southeast-1.amazonaws.com/(image_name_):(version) > imagedefinitions.json
+
+artifacts:
+    files: imagedefinitions.json
+    
+    
+    Contoh
+    
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 192246087150.dkr.ecr.ap-southeast-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on date
+      - echo Building the Docker image...          
+      - docker build -t channel-tiktok:latest .
+      - docker tag channel-tiktok:latest 192246087150.dkr.ecr.ap-southeast-1.amazonaws.com/channel-tiktok:latest      
+  post_build:
+    commands:
+      - echo Build completed on date
+      - echo Pushing the Docker image...
+      - docker push 192246087150.dkr.ecr.ap-southeast-1.amazonaws.com/channel-tiktok:latest
+      - printf '[{"name":"tes-app","imageUri":"%s"}]' 192246087150.dkr.ecr.ap-southeast-1.amazonaws.com/channel-tiktok:latest > imagedefinitions.json
+
+artifacts:
+    files: imagedefinitions.json
+##
