@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: anjasmara-service-users
-        image: mulki12/anjasmara_service_users:latest
+        image: mulki12/anjasmara_service_users_v1:latest
         ports:
         - containerPort: 3000
         
