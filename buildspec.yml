@@ -2,8 +2,8 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-        docker: 18
+    commands:
+      - yum install docker
   pre_build:
     commands:
       - TAG="$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
