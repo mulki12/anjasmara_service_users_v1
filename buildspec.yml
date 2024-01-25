@@ -15,16 +15,16 @@ phases:
       #- aws eks update-kubeconfig --name EKS-Cluster --region ap-southeast-1
   build:
     commands:
-      - echo Build started on date
+      - echo Build started on 'date'
       - echo Building the Docker image...          
-      - docker build --tag anjasmara_service_users_v1 .
-      - docker tag anjasmara_service_users_v1:latest 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/anjasmara_service_users_v1:latest
+      - docker build --tag $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/anjasmara_service_users_v1:latest
 
   post_build:
     commands:
       - echo Build completed on date
       - echo Pushing the Docker image...
-      - docker push docker push anjasmara_service_users_v1:latest
+      - docker push 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/anjasmara_service_users_v1:latest
       - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
       - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
       - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
