@@ -1,16 +1,21 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+        docker: 18     
+    commands: 
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   pre_build:
     commands:
       - TAG="$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
-      - REPOSITORY_URI=${REPO_ECR}
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com
       - echo "Verify AWS CLI Version..."
       - aws --version
-      - echo "Login in to Amazon ECR..."
+      - REPOSITORY_URI=221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/anjasmara_service_users_v1
       #- $(aws ecr get-login --no-include-email)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
        # Update Kube config Home Directory
