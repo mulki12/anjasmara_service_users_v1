@@ -5,12 +5,20 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/waizly-ecr
+      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+      - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+      - echo "Update Kube Config"      
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
   build:
     commands:
       - echo Build started on date
       - echo Building the Docker image...
       - docker build .          
       - docker build -t anjasmara_service_users_v1:latest .
+      - echo "Apply changes to kube manifests"            
+      - kubectl apply -f kube-manifests/
       - docker tag anjasmara_service_users_v1:latest 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/waizly-ecr/anjasmara_service_users_v1:latest
 
   post_build:
