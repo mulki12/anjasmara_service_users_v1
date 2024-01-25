@@ -3,21 +3,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodeapp-deployment
+  name: anjasmara-service-users-deployment
   labels:
-    app: anjasmara_service_users
+    app: anjasmara-service-users
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: anjasmara_service_users
+      app: anjasmara-service-users
   template:
     metadata:
       labels:
-        app: anjasmara_service_users 
+        app: anjasmara-service-users 
     spec:
       containers:
-      - name: anjasmara_service_users
+      - name: anjasmara-service-users
         image: mulki12/anjasmara_service_users:latest
         ports:
         - containerPort: 3000
@@ -28,10 +28,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: anjasmara_service_users
+  name: anjasmara-service-users
 spec:
   selector:
-    app: anjasmara_service_users 
+    app: anjasmara-service-users 
   type: LoadBalancer
   ports:
   - protocol: TCP
