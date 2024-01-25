@@ -1,48 +1,44 @@
 pipeline {
-
-  environment {
-    registry = "mulki12/anjasmara_service_users_v1"
-    registryCredential = 'mulki12'
-    dockerImage = ''
-  }
-
-  agent any
-
-  stages {
-
-    stage('Checkout Source') {
-      steps {
-        git 'https://github.com/mulki12/anjasmara_service_users_v1.git'
-      }
+    agent any
+    options {
+        skipStagesAfterUnstable()
     }
-
-    stage('Build image') {
-      steps{
-        script{
-            dockerImage = docker.build registry + ":$BUILD_NUMBER"
-         }
-      }
-    }
-
-//    stage('Deploy our image') {
-//      steps{
-//        script {
-//          docker.withRegistry( '', registryCredential ) {
-//            dockerImage.push("latest")
-//          }
-//        }
-//      }
-//    }
-
-    stage('Deploying App to Kubernetes') {
-      steps {
-        withKubeConfig([credentialsId: 'config', serverUrl: 'https://192.168.32.128:6443']) {
-          sh 'cat deploymentservice.yml | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f -'
-          sh 'kubectl apply -f deploymentservice.yml'
+    stages {
+         stage('Clone repository') { 
+            steps { 
+                script{
+                checkout scm
+                }
+            }
         }
-      }
+
+        stage('Build') { 
+            steps { 
+                script{
+                 app = docker.build("anjasmara_service_users_v1")
+                }
+            }
+        }
+        stage('Test'){
+            steps {
+                 echo 'Empty'
+            }
+        }
+        stage('Push') {
+            steps {
+                script{
+                        docker.withRegistry('https://221047265242.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr:ap-southeast-1:aws-credentials') {
+                    app.push("${env.BUILD_NUMBER}")
+                    app.push("latest")
+                    }
+                }
+            }
+        }
+        stage('Deploy'){
+            steps {
+                 sh 'kubectl apply -f deployment.yml'
+            }
+        }
+
     }
-
-  }
-
 }
