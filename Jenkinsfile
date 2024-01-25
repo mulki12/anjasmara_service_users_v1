@@ -3,42 +3,27 @@ pipeline {
     options {
         skipStagesAfterUnstable()
     }
-    stages {
-         stage('Clone repository') { 
-            steps { 
-                script{
-                checkout scm
-                }
-            }
-        }
+    stage("Git Clone"){
 
-        stage('Build') { 
-            steps { 
-                script{
-                 app = docker.build("anjasmara_service_users_v1")
-                }
-            }
-        }
-        stage('Test'){
-            steps {
-                 echo 'Empty'
-            }
-        }
-        stage('Push') {
-            steps {
-                script{
-                        docker.withRegistry('https://221047265242.dkr.ecr.ap-southeast-1.amazonaws.com') {
-                    app.push("${env.BUILD_NUMBER}")
-                    app.push("latest")
-                    }
-                }
-            }
-        }
-        stage('Deploy'){
-            steps {
-                 sh 'kubectl apply -f deployment.yml'
-            }
-        }
+        git credentialsId: 'GIT_HUB_CREDENTIALS', url: 'https://github.com/mulki12/anjasmara-service-users-v1.git', branch: 'master' 
+    }
 
+    stage("Build") {
+
+       sh 'docker build . '
+       sh 'docker image list'
+
+    }
+
+    withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'PASSWORD')]) {
+        sh 'docker login -u mulki12 -p $PASSWORD'
+    }
+
+    stage("Push Image to Docker Hub"){
+        sh 'docker push mulki12/anjasmara-service-users-v1:latest'
+    }
+
+    stage("kubernetes deployment"){
+        sh 'kubectl apply -f deployment.yml'
     }
 }
