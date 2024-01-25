@@ -6,7 +6,7 @@ phases:
       - curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
       - chmod +x ./kubectl
       - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-      - aws eks --region ap-southeast-1 update-kubeconfig --name $EKS_CLUSTER_NAME --profile anotheracc
+      - aws eks --region ap-southeast-1 update-kubeconfig --name EKS-Cluster --profile anotheracc
       - cat ~/.kube/config
       #4. Set the image tag
       - export TAG=$CODEBUILD_RESOLVED_SOURCE_VERSION
