@@ -41,7 +41,7 @@ phases:
     commands:
       - echo Build completed on date
       - echo Pushing the Docker image...
-      - docker push 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/waizly-ecr/channel-tiktok:latest
+      - docker push 192246087150.dkr.ecr.ap-southeast-1.amazonaws.com/channel-tiktok:latest
       - printf '[{"name":"tes-app","imageUri":"%s"}]' 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/waizly-ecr/channel-tiktok:latest > imagedefinitions.json
 
 artifacts:
