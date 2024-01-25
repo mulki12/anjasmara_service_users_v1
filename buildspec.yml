@@ -16,8 +16,6 @@ phases:
       - echo Build started on date
       - echo Building the Docker image...          
       - docker build -t anjasmara_service_users_v1:latest .
-      - echo "Apply changes to kube manifests"            
-      - kubectl apply -f kube-manifests/
       - docker tag anjasmara_service_users_v1:latest 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/anjasmara_service_users_v1:latest
 
   post_build:
