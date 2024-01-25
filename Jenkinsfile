@@ -1,11 +1,5 @@
 pipeline {
 
-  environment {
-    registry = "mulki12/anjasmara_service_users_v1"
-    registryCredential = 'mulki12'
-    dockerImage = ''
-  }
-
   agent any
 
   stages {
