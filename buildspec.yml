@@ -11,7 +11,7 @@ phases:
       - echo "Verify AWS CLI Version..."
       - aws --version
       - echo "Login in to Amazon ECR..."
-      - $(aws ecr get-login --no-include-email)
+      #- $(aws ecr get-login --no-include-email)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
        # Update Kube config Home Directory
       - export KUBECONFIG=$HOME/.kube/config
