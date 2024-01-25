@@ -14,8 +14,7 @@ phases:
   build:
     commands:
       - echo Build started on date
-      - echo Building the Docker image...
-      - docker build .          
+      - echo Building the Docker image...          
       - docker build -t anjasmara_service_users_v1:latest .
       - echo "Apply changes to kube manifests"            
       - kubectl apply -f kube-manifests/
