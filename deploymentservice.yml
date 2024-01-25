@@ -32,7 +32,7 @@ metadata:
 spec:
   selector:
     app: anjasmara-service-users 
-  type: LoadBalancer
+  type: NodePort
   ports:
   - protocol: TCP
     port: 3000
