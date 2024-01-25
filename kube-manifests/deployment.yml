@@ -1,0 +1,22 @@
+#01-DEVOPS-Nginx-Deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anjasmara_service_users_v1-deployment
+  labels:
+    app: anjasmara_service_users_v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anjasmara_service_users_v1
+  template:
+    metadata:
+      labels:
+        app: anjasmara_service_users_v1
+    spec:
+      containers:
+        - name: anjasmara_service_users_v1
+          image: CONTAINER_IMAGE
+          ports:
+            - containerPort: 3000
