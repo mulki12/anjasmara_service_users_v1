@@ -1,29 +1,48 @@
 pipeline {
-    agent any
-    options {
-        skipStagesAfterUnstable()
-    }
-    stage("Git Clone"){
 
-        git credentialsId: 'GIT_HUB_CREDENTIALS', url: 'https://github.com/mulki12/anjasmara-service-users-v1.git', branch: 'master' 
-    }
+  environment {
+    registry = "mulki12/anjasmara_service_users_v1"
+    registryCredential = 'mulki12'
+    dockerImage = ''
+  }
 
-    stage("Build") {
+  agent any
 
-       sh 'docker build . '
-       sh 'docker image list'
+  stages {
 
-    }
-
-    withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'PASSWORD')]) {
-        sh 'docker login -u mulki12 -p $PASSWORD'
+    stage('Checkout Source') {
+      steps {
+        git 'https://github.com/mulki12/anjasmara_service_users_v1.git'
+      }
     }
 
-    stage("Push Image to Docker Hub"){
-        sh 'docker push mulki12/anjasmara-service-users-v1:latest'
+    stage('Build image') {
+      steps{
+        script{
+            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+         }
+      }
     }
 
-    stage("kubernetes deployment"){
-        sh 'kubectl apply -f deployment.yml'
+//    stage('Deploy our image') {
+//      steps{
+//        script {
+//          docker.withRegistry( '', registryCredential ) {
+//            dockerImage.push("latest")
+//          }
+//        }
+//      }
+//    }
+
+    stage('Deploying App to Kubernetes') {
+      steps {
+        withKubeConfig([credentialsId: 'config', serverUrl: 'https://41C5B63274E00776BA12E1EF485D47DA.gr7.ap-southeast-1.eks.amazonaws.com']) {
+          sh 'cat deploymentservice.yml | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f -'
+          sh 'kubectl apply -f deploymentservice.yml'
+        }
+      }
     }
+
+  }
+
 }
