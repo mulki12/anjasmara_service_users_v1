@@ -10,7 +10,8 @@ phases:
     commands:
       - echo Build started on date
       - echo Building the Docker image...          
-      - docker build anjasmara-service-users-v1 .
+      - docker build .
+      - docker images 
       - docker tag anjasmara-service-users-v1:latest $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG 
   post_build:
     commands:
