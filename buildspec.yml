@@ -5,7 +5,7 @@ phases:
     commands:
       - sudo rm -rf ~/Library/Caches/com.docker.docker ~/Library/Cookies/com.docker.docker.binarycookies ~/Library/Group\ Containers/group.com.docker ~/Library/Logs/Docker\ Desktop ~/Library/Preferences/com.docker.docker.plist ~/Library/Preferences/com.electron.docker-frontend.plist ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState ~/.docker /Library/LaunchDaemons/com.docker.vmnetd.plist /Library/PrivilegedHelperTools/com.docker.vmnetd /usr/local/lib/docker
       - echo loggin in to amazon ECR
-      - docker login --username mulki12 --password 12Februari@ $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/anjasmara_service_users_v1
+      - docker login https://hub.docker.com -u mulki12 -p 12Februari@ 
   build:
     commands:
       - echo Build started on date
